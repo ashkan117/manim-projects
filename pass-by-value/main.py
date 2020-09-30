@@ -9,31 +9,23 @@ class RectangleExhibit(Scene):
     def construct(self):
         adog = DogObject('adog','1234')
         olddog = DogObject('olddog','9879')
-        self.dogs = [adog,olddog]
+        d = DogObject('d','5235') 
+        self.dogs = [adog,olddog,d]
 
         self.create_dog_objects()
         self.create_instances()
         self.create_arrows()
-        self.show_second_instance()
+
+        self.show_first_assignment()
+        self.show_second_assignment()
+
+        self.show_function_call()
         self.update_arrow()
         self.wait()
 
-
     def get_block(self,dog):
-        # block = Rectangle(
-        #     color = WHITE,
-        #     height = 1,
-        #     width = 2,
-        # )
-
-
         address = TextMobject(dog.address)
         address.add_background_rectangle()
-
-        # for vect in UP, DOWN:
-        #     line = Line(block.get_left(), block.get_right())
-        #     line.shift(0.3*block.get_height()*vect)
-        #     block.add(line)
         return address
 
     def create_dog_objects(self):
@@ -42,11 +34,11 @@ class RectangleExhibit(Scene):
         self.rect = SurroundingRectangle(self.first_obj)
         self.rect.set_color(BLUE)
 
-        label = TextMobject('dog object')
-        label.next_to(self.first_obj,DOWN)
+        self.label_one = TextMobject('dog object')
+        self.label_one.next_to(self.first_obj,DOWN)
 
         self.second_obj = TextMobject('"Fifi"')
-        self.second_obj.next_to(label,DOWN)
+        self.second_obj.next_to(self.label_one,DOWN)
         self.second_obj.add_background_rectangle()
         self.rect_two = SurroundingRectangle(self.second_obj)
         self.rect_two.set_color(YELLOW)
@@ -54,14 +46,7 @@ class RectangleExhibit(Scene):
         self.label_two = TextMobject('dog object')
         self.label_two.next_to(self.second_obj,DOWN)
 
-
-        self.play(
-            ShowCreation(self.rect),
-            ShowCreation(self.first_obj),
-            ShowCreation(label),
-        )
         self.wait(1)
-
 
     def create_instances(self):
         blocks = VGroup(*[
@@ -87,17 +72,6 @@ class RectangleExhibit(Scene):
         self.blocks = blocks
         self.var_names = var_names
     
-        self.play(
-                FadeIn(blocks[0]),
-                ShowCreation(rects[0]),
-                FadeIn(var_names[0])
-                )
-        # self.play(
-        #         LaggedStartMap(FadeIn, blocks),
-        #         ShowCreation(rects),
-        #         LaggedStartMap(FadeIn, var_names)
-        #         )
-
 
     def create_arrows(self):
         arrows = VGroup()
@@ -106,28 +80,65 @@ class RectangleExhibit(Scene):
             arrows.add(arrow)
 
         self.arrows = arrows
-        self.play(GrowArrow(arrows[0]))
+
+    def show_first_assignment(self):
+        self.play(
+                FadeIn(self.blocks[0]),
+                ShowCreation(self.rects[0]),
+                FadeIn(self.var_names[0])
+                )
+
+        self.wait(1)
+        self.play(
+            ShowCreation(self.rect),
+            ShowCreation(self.first_obj),
+            ShowCreation(self.label_one),
+        )
+        self.wait(1)
+        self.play(GrowArrow(self.arrows[0]))
+        self.wait(1)
+
+    def show_second_assignment(self):
+        self.play(
+                FadeIn(self.blocks[1]),
+                ShowCreation(self.rects[1]),
+                FadeIn(self.var_names[1])
+                )
+        self.wait(1)
+        self.play(
+                GrowArrow(self.arrows[1])
+                )
+        self.wait(1)
+
 
     def show_second_instance(self):
-
-
         self.play(
                 FadeIn(self.blocks[-1]),
                 ShowCreation(self.rects[-1]),
                 FadeIn(self.var_names[-1]),
                 )
         self.wait(1)
+        self.play(GrowArrow(self.arrows[1]))
+        self.wait(1)
+
+
+    def show_function_call(self):
+        self.play(
+                FadeIn(self.blocks[-1]),
+                ShowCreation(self.rects[-1]),
+                FadeIn(self.var_names[-1])
+                )
+        self.wait(1)
         self.play(GrowArrow(self.arrows[-1]))
         self.wait(1)
 
+    def update_arrow(self):
         self.play(
                 FadeIn(self.label_two),
                 FadeIn(self.second_obj),
                 FadeIn(self.rect_two),
                 )
         self.wait(1)
-
-    def update_arrow(self):
         self.play(FadeOut(self.arrows[-1]))
         self.wait(1)
 
