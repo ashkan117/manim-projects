@@ -6,10 +6,11 @@ class DogObject():
         self.address = address
 
 class RectangleExhibit(Scene):
+
     def construct(self):
-        adog = DogObject('adog','1234')
-        olddog = DogObject('olddog','9879')
-        d = DogObject('d','5235') 
+        adog = DogObject('adog','7889')
+        olddog = DogObject('olddog','7889')
+        d = DogObject('d','7889') 
         self.dogs = [adog,olddog,d]
 
         self.create_dog_objects()
@@ -21,7 +22,7 @@ class RectangleExhibit(Scene):
 
         self.show_function_call()
         self.update_arrow()
-        self.wait()
+        self.wait(3)
 
     def get_block(self,dog):
         address = TextMobject(dog.address)
@@ -35,16 +36,23 @@ class RectangleExhibit(Scene):
         self.rect.set_color(BLUE)
 
         self.label_one = TextMobject('dog object')
-        self.label_one.next_to(self.first_obj,DOWN)
+        self.label_one.next_to(self.first_obj,UP)
+
+        self.address_label_one = TextMobject('7889')
+        self.address_label_one.next_to(self.first_obj,DOWN)
+
+
+        self.label_two = TextMobject('dog object')
+        self.label_two.next_to(self.address_label_one,DOWN)
 
         self.second_obj = TextMobject('"Fifi"')
-        self.second_obj.next_to(self.label_one,DOWN)
+        self.second_obj.next_to(self.label_two,DOWN)
         self.second_obj.add_background_rectangle()
         self.rect_two = SurroundingRectangle(self.second_obj)
         self.rect_two.set_color(YELLOW)
 
-        self.label_two = TextMobject('dog object')
-        self.label_two.next_to(self.second_obj,DOWN)
+        self.address_label_two = TextMobject('6477')
+        self.address_label_two.next_to(self.second_obj,DOWN)
 
         self.wait(1)
 
@@ -93,6 +101,8 @@ class RectangleExhibit(Scene):
             ShowCreation(self.rect),
             ShowCreation(self.first_obj),
             ShowCreation(self.label_one),
+            ShowCreation(self.address_label_one),
+            
         )
         self.wait(1)
         self.play(GrowArrow(self.arrows[0]))
@@ -137,9 +147,19 @@ class RectangleExhibit(Scene):
                 FadeIn(self.label_two),
                 FadeIn(self.second_obj),
                 FadeIn(self.rect_two),
+                FadeIn(self.address_label_two)
                 )
         self.wait(1)
-        self.play(FadeOut(self.arrows[-1]))
+        updated_pointer_address = TextMobject('6477')
+        updated_pointer_address.add_background_rectangle()
+        updated_pointer_address.move_to(self.blocks[-1])
+        self.play(
+                Transform(self.blocks[-1],updated_pointer_address),
+                )
+        self.wait(1)
+        self.play(
+                FadeOut(self.arrows[-1])
+                )
         self.wait(1)
 
         self.remove(self.arrows[-1])
