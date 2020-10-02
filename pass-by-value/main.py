@@ -5,12 +5,12 @@ class DogObject():
         self.var_name = var_name
         self.address = address
 
-class RectangleExhibit(Scene):
+class PassByValue(Scene):
 
     def construct(self):
-        adog = DogObject('adog','7889')
-        olddog = DogObject('olddog','7889')
-        d = DogObject('d','7889') 
+        adog = DogObject('adog','42')
+        olddog = DogObject('olddog','42')
+        d = DogObject('d','42') 
         self.dogs = [adog,olddog,d]
 
         self.create_dog_objects()
@@ -38,7 +38,7 @@ class RectangleExhibit(Scene):
         self.label_one = TextMobject('dog object')
         self.label_one.next_to(self.first_obj,UP)
 
-        self.address_label_one = TextMobject('7889')
+        self.address_label_one = TextMobject('42')
         self.address_label_one.next_to(self.first_obj,DOWN)
 
 
@@ -51,7 +51,7 @@ class RectangleExhibit(Scene):
         self.rect_two = SurroundingRectangle(self.second_obj)
         self.rect_two.set_color(YELLOW)
 
-        self.address_label_two = TextMobject('6477')
+        self.address_label_two = TextMobject('74')
         self.address_label_two.next_to(self.second_obj,DOWN)
 
         self.wait(1)
@@ -150,7 +150,7 @@ class RectangleExhibit(Scene):
                 FadeIn(self.address_label_two)
                 )
         self.wait(1)
-        updated_pointer_address = TextMobject('6477')
+        updated_pointer_address = TextMobject('74')
         updated_pointer_address.add_background_rectangle()
         updated_pointer_address.move_to(self.blocks[-1])
         self.play(
